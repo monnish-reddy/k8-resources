@@ -1,22 +1,22 @@
-# mongodb ,depends on catalogue and user 
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: mongodb
   namespace: roboshop
+  # deployment labels
   labels:
     component: mongodb
     project: roboshop
     tier: database
 spec:
   replicas: 1
+  # These are the labels replica set use to create pod replicas, this should match pod labels
   selector:
-  # these are replica variables to create replicas it should match the pod labels
     matchLabels:
       component: mongodb
       project: roboshop
       tier: database
-      #this is pod defination
+  # This is pod definition
   template:
     metadata:
       labels:
@@ -26,7 +26,7 @@ spec:
     spec:
       containers:
       - name: mongodb
-        image: monnishreddy2003/mongodb:v1
+        image: joindevops/mongodb:v1
 ---
 apiVersion: v1
 kind: Service
@@ -44,5 +44,5 @@ spec:
     tier: database
   ports:
   - protocol: TCP
-    port: 27017
-    targetPort: 27017
+    port: 27017 # service port
+    targetPort: 27017 # container port
