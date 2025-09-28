@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: roboshop
+  labels:
+    project: roboshop
+    component: mysql
+    tier: backend
+    environment: dev
+  annotations:
+    description: "this pod is create to demonstrate pod annotations"
+spec:
+  containers:
+  - name: nginx
+    image: nginx
+    env:
+    - name: COURSE
+      value: "kubernetes"
+    resources:
+      requests: 
+        memory: "64Mi"
+        cpu: "250m"
+      limits:
+        memory: "128Mi"
+        cpu: "500m"
