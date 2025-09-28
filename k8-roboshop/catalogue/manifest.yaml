@@ -5,10 +5,10 @@ metadata:
   namespace: roboshop
   labels:
     component: catalogue
-    provider: roboshop
+    project: roboshop
     tier: app
 data:
-  MONGO : "true"
+  MONGO: "true"
   MONGO_URL: "mongodb://mongodb:27017/catalogue"
 ---
 apiVersion: apps/v1
@@ -16,31 +16,33 @@ kind: Deployment
 metadata:
   name: catalogue
   namespace: roboshop
+  # deployment labels
   labels:
-    component: catalogue  
-    provider: roboshop
+    component: catalogue
+    project: roboshop
     tier: app
 spec:
   replicas: 1
+  # These are the labels replica set use to create pod replicas, this should match pod labels
   selector:
     matchLabels:
       component: catalogue
-      provider: roboshop
+      project: roboshop
       tier: app
+  # This is pod definition
   template:
     metadata:
       labels:
         component: catalogue
-        provider: roboshop
+        project: roboshop
         tier: app
     spec:
       containers:
-        - name: mongodb
-          image: joindevops/catalogue:v1
-          envFrom:
-            - configMapRef:
-                name: catalogue
-      
+      - name: catalogue
+        image: joindevops/catalogue:v1
+        envFrom:
+        - configMapRef:
+            name: catalogue
 ---
 apiVersion: v1
 kind: Service
@@ -57,6 +59,6 @@ spec:
     project: roboshop
     tier: app
   ports:
-    - protocol: TCP
-      port: 8080
-      targetPort: 8080
+  - protocol: TCP
+    port: 8080 # service port
+    targetPort: 8080 # container port
