@@ -25,4 +25,21 @@ spec:
   resources:
     requests:
       storage: 10Gi
-  
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx 
+spec:
+  nodeSelector:
+    topology.kubernetes.io/zone: us-east-1a
+  containers:
+  - name: nginx
+    image: nginx
+    volumeMounts:
+    - mountPath: /usr/share/nginx/html
+      name: persistent-storage
+  volumes:
+  - name: persistent-storage
+    persistentVolumeClaim:
+      claimName: ebs-claim
